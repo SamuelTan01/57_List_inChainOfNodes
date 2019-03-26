@@ -1,21 +1,20 @@
-
 /**
   Represent a list, implemented in a chain of nodes
  */
 
-public class List_inChainOfNodes_whileStyle{
+public class List_inChainOfNodes{
     private Node headReference;
 
     /**
       Construct an empty list
      */
-    public List_inChainOfNodes_whileStyle(){
+    public List_inChainOfNodes(){
     }
 
     /**
       Construct a list given a headReference
      */
-    public List_inChainOfNodes_whileStyle(Node headReference){
+    public List_inChainOfNodes(Node headReference){
         this.headReference = headReference;
     }
 
@@ -23,13 +22,15 @@ public class List_inChainOfNodes_whileStyle{
       @return the number of elements in this list
      */
     public int size() {
-        int size = 0;
-        Node curNode = headReference;
-        while( curNode!= null){
-            size++;
-            curNode = curNode.getReferenceToNextNode();
+        // base case: empty list
+        if (headReference == null)
+            return 0; // size is 0
+
+        // recursive case
+        else{
+            // add 1 to the size of the list without the headreference
+            return 1 + new List_inChainOfNodes( headReference.getReferenceToNextNode()).size();
         }
-        return size;
     }
 
 
@@ -62,4 +63,32 @@ public class List_inChainOfNodes_whileStyle{
 
         return true;
      }
-}
+
+	/**
+
+	  @return true, in keeping with conventions.
+
+	 **/
+	public boolean add(int index, Object val){
+
+		// if index == 0 use addAsHead
+		if(index==0) addAsHead( val);
+
+		else{
+			// store former element at index
+			Node nodeBefore = getNode(index -1);
+			Node nodeToBeShifted = nodeBefore.getReferenceToNextNode();
+
+
+			// create a Node using given value and set to it as next Node of nodeBefore
+			Node addition = new Node( val, nodeToBeShifted);
+			nodeBefore.setReferenceToNextNode( addition);
+		}
+		return true;
+	}
+
+	/**
+	  Sets @value at given index
+
+	  @return old value, in keeping with conventions
+	 */
